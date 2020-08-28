@@ -7,7 +7,6 @@ import { switchMap, tap, map } from 'rxjs/operators';
 import { TodoEntity } from '../reducers/todos.reducer';
 @Injectable()
 export class TodosEffects {
-
   // todoAdded -> save it at the api -> todoAddedSuccess | todoAddedFailure
   saveTodo$ = createEffect(() =>
     this.actions$.pipe(

@@ -36,6 +36,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthEffects } from './effects/auth.effects';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AdminModule } from './features/admin/admin.module';
+import { ProjectEntryComponent } from './components/project-entry/project-entry.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { AdminModule } from './features/admin/admin.module';
     DashboardComponent,
     TodoListComponent,
     TodoEntryComponent,
-    LoginComponent
+    LoginComponent,
+    ProjectEntryComponent
   ],
   imports: [
     HttpClientModule,

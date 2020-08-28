@@ -1,0 +1,22 @@
+<form [formGroup]="form">
+  <div class="field-container">
+    <mat-form-field hintLabel="Max of 50 Characters"
+                    style="width: 800px !important"
+                    appearance="fill">
+      <mat-label>
+        Enter the project name
+      </mat-label>
+      <input matInput
+             #input
+             formControlName="projectName"
+             maxLength="50"
+             placeholder="School">
+      <mat-hint align="end">{{ input.value?.length || 0 }}/50</mat-hint>
+    </mat-form-field>
+    <div>
+      <button mat-button
+              (click)="submit()"
+              [disabled]="form.invalid">Submit</button>
+    </div>
+  </div>
+</form>

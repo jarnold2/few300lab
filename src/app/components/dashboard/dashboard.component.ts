@@ -9,6 +9,7 @@ import { DashboardProject, TodoItem } from 'src/app/models';
 import { AppState, selectDashboardProjects, selectInboxTodoList } from 'src/app/reducers';
 import { Store, select } from '@ngrx/store';
 import { loadTodos } from 'src/app/actions/todo.actions';
+import { loadProjects } from 'src/app/actions/project.actions';
 import { logOutRequested } from 'src/app/actions/auth.actions';
 
 @Component({
@@ -30,6 +31,7 @@ export class DashboardComponent implements OnInit {
     private dialog: MatDialog,
     private bottomSheet: MatBottomSheet) {
     store.dispatch(loadTodos());
+    store.dispatch(loadProjects());
   }
 
   ngOnInit(): void {
