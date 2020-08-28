@@ -16,8 +16,14 @@ const reducerFunction = createReducer(
     isLoggedIn: true,
     userName: action.username,
     token: action.token
-  })
-  ));
+  })),
+  on(actions.logOutRequested, (state, action) => ({
+    isLoggedIn: false,
+    userName: null,
+    token: null
+  })));
+
+
 
 export function reducer(state: AuthState, action: Action): AuthState {
   return reducerFunction(state, action);

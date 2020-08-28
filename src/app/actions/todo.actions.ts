@@ -43,5 +43,3 @@ export const loadTodosFailed = createAction(
   '[todos] loading todos failed',
   props<{ error: string }>()
 );
-
-

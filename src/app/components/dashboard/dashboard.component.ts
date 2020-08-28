@@ -9,6 +9,7 @@ import { DashboardProject } from 'src/app/models';
 import { AppState, selectDashboardProjects } from 'src/app/reducers';
 import { Store, select } from '@ngrx/store';
 import { loadTodos } from 'src/app/actions/todo.actions';
+import { logOutRequested } from 'src/app/actions/auth.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -58,5 +59,9 @@ export class DashboardComponent implements OnInit {
       autoFocus: true
     };
     this.bottomSheet.open(TodoEntryComponent, config);
+  }
+
+  logOut(): void {
+    this.store.dispatch(logOutRequested());
   }
 }
