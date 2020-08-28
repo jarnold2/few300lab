@@ -33,7 +33,7 @@
       <button mat-button>
         <mat-chip [routerLink]=""
                   [queryParams]="{inbox: true}">
-          <mat-icon>inbox</mat-icon>(12)
+          <mat-icon>inbox</mat-icon> {{ (inbox$ | async).length}}
         </mat-chip>
       </button>
     </mat-card-actions>

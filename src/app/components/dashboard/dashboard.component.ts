@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import { TodoListComponent } from '../todo-list/todo-list.component';
 import { TodoEntryComponent } from '../todo-entry/todo-entry.component';
-import { DashboardProject } from 'src/app/models';
-import { AppState, selectDashboardProjects } from 'src/app/reducers';
+import { DashboardProject, TodoItem } from 'src/app/models';
+import { AppState, selectDashboardProjects, selectInboxTodoList } from 'src/app/reducers';
 import { Store, select } from '@ngrx/store';
 import { loadTodos } from 'src/app/actions/todo.actions';
 import { logOutRequested } from 'src/app/actions/auth.actions';
@@ -19,6 +19,8 @@ import { logOutRequested } from 'src/app/actions/auth.actions';
 export class DashboardComponent implements OnInit {
 
   projects$: Observable<DashboardProject[]>;
+
+  inbox$: Observable<TodoItem[]>;
 
   routeQueryParams$: Subscription;
   constructor(
@@ -34,6 +36,7 @@ export class DashboardComponent implements OnInit {
     this.projects$ = this.store.pipe(
       select(selectDashboardProjects)
     );
+    this.inbox$ = this.store.pipe(select(selectInboxTodoList));
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
       if (params.inbox) {
         this.showList();

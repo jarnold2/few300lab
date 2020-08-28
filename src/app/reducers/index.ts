@@ -49,7 +49,7 @@ const selectSortedInboxTodos = createSelector(
 
 export const selectInboxTodoList = createSelector(
   selectSortedInboxTodos,
-  (todos) => todos.filter(t => !t.project)
+  (todos) => todos.filter(t => !t.project) as fromModels.TodoItem[]
 );
 
 export const selectDashboardProjects = createSelector(
