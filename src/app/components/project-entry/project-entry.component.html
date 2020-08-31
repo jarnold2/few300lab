@@ -8,7 +8,7 @@
       </mat-label>
       <input matInput
              #input
-             formControlName="projectName"
+             formControlName="name"
              maxLength="50"
              placeholder="School">
       <mat-hint align="end">{{ input.value?.length || 0 }}/50</mat-hint>
@@ -17,6 +17,7 @@
       <button mat-button
               (click)="submit()"
               [disabled]="form.invalid">Submit</button>
+      <mat-error *ngIf="!projectNameValid">Project name must be unique.</mat-error>
     </div>
   </div>
 </form>

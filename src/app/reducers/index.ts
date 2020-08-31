@@ -38,7 +38,7 @@ const selectInboxTodoSorts = createSelector(selectUiHintsBranch, b => b.inboxSor
 
 export const selectAllProjectsList = createSelector(
   selectAllProjects,
-  (p) => p as fromModels.Project[]
+  (p) => p as fromProjects.ProjectEntity[]
 );
 
 const selectSortedInboxTodos = createSelector(

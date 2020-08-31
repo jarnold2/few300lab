@@ -7,6 +7,8 @@ import { AppState, selectInboxTodoList, selectListForProject } from '../../reduc
 import { tap } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as actions from '../../actions/todo.actions';
+import { TodoEntity } from 'src/app/reducers/todos.reducer';
+import { Update } from '@ngrx/entity/src/models';
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
@@ -53,5 +55,18 @@ export class TodoListComponent implements OnInit {
 
   done(): void {
     this.dialogRef.close();
+  }
+
+  updateItemStatus(item: TodoItem): void {
+    // const updateTodoItem: Update<TodoEntity> = {
+    //   id: item.id,
+    //   changes: { completed: !item.completed }
+    // };
+    if (item.completed) {
+      this.store.dispatch(actions.markTodoAsIncomplete({ item }));
+    }
+    else {
+      this.store.dispatch(actions.markTodoAsComplete({ item }));
+    }
   }
 }

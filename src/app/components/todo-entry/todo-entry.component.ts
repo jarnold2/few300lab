@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Observable } from 'rxjs';
-import { Project } from 'src/app/models';
 import { Store, select } from '@ngrx/store';
 import { AppState, selectAllProjectsList } from 'src/app/reducers';
 import { todoAdded } from 'src/app/actions/todo.actions';
+import { ProjectEntity } from 'src/app/reducers/projects.reducer';
 
 @Component({
   selector: 'app-todo-entry',
@@ -13,7 +13,7 @@ import { todoAdded } from 'src/app/actions/todo.actions';
   styleUrls: ['./todo-entry.component.scss']
 })
 export class TodoEntryComponent implements OnInit {
-  projects$: Observable<Project[]>;
+  projects$: Observable<ProjectEntity[]>;
   form: FormGroup;
   constructor(
     private formBuilder: FormBuilder,

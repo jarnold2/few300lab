@@ -1,5 +1,5 @@
-import { Project } from '../models/project';
 import { createAction, props } from '@ngrx/store';
+import { ProjectEntity } from '../reducers/projects.reducer';
 
 let tempId = 0;
 export const projectAdded = createAction(
@@ -7,14 +7,14 @@ export const projectAdded = createAction(
   ({ name }: { name: string }) => ({
     payload: {
       id: 'TEMP' + tempId++,
-      name
-    } as Project
+      name: name.replace(/\s+/g, '-').trim()
+    } as ProjectEntity
   })
 );
 
 export const projectAddedSucceeded = createAction(
   '[project] project added succeeded',
-  props<{ oldId: string, payload: Project }>()
+  props<{ oldId: string, payload: ProjectEntity }>()
 );
 
 export const loadProjects = createAction(
@@ -23,7 +23,7 @@ export const loadProjects = createAction(
 
 export const loadProjectsSucceded = createAction(
   '[project] load projects succeeded',
-  props<{ projects: Project[] }>()
+  props<{ projects: ProjectEntity[] }>()
 );
 
 export const loadProjectsFailed = createAction(

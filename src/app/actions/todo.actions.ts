@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { TodoEntity } from '../reducers/todos.reducer';
+import { TodoItem } from '../models';
+import { Update } from '@ngrx/entity';
 
 export const todoItemSorted = createAction(
   '[todo] todo item sorted',
@@ -43,3 +45,24 @@ export const loadTodosFailed = createAction(
   '[todos] loading todos failed',
   props<{ error: string }>()
 );
+
+export const markTodoAsComplete = createAction(
+  '[todos] todo marked as complete',
+  props<{ item: TodoEntity }>()
+);
+
+export const markTodoAsCompleteSucceeded = createAction(
+  '[todos] todo marked as complete succeeded',
+  props<{ item: Update<TodoEntity> }>()
+);
+
+export const markTodoAsIncomplete = createAction(
+  '[todos] todo marked as incomplete',
+  props<{ item: TodoEntity }>()
+);
+
+export const markTodoAsIncompleteSucceeded = createAction(
+  '[todos] todo marked as incomplete succeeded',
+  props<{ item: Update<TodoEntity> }>()
+);
+

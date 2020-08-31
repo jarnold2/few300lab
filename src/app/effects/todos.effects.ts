@@ -5,6 +5,8 @@ import { environment } from '../../environments/environment';
 import * as actions from '../actions/todo.actions';
 import { switchMap, tap, map } from 'rxjs/operators';
 import { TodoEntity } from '../reducers/todos.reducer';
+import { TodoItem } from '../models/todo-item';
+import { Update } from '@ngrx/entity';
 @Injectable()
 export class TodosEffects {
   // todoAdded -> save it at the api -> todoAddedSuccess | todoAddedFailure
@@ -35,6 +37,34 @@ export class TodosEffects {
     ), { dispatch: true }
   );
 
+  markTodoAsComplete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.markTodoAsComplete),
+      switchMap((originalAction) => this.client.post<TodoEntity>(environment.apiUrl + 'todos/completed', {
+        id: originalAction.item.id,
+        name: originalAction.item.name,
+        completed: true
+      }).pipe(
+        map(() => actions.markTodoAsCompleteSucceeded({ item: { id: originalAction.item.id, changes: { completed: true } } }))
+      )
+      )
+    ), { dispatch: true }
+  );
+
+
+  markTodoAsIncomplete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.markTodoAsIncomplete),
+      switchMap((originalAction) => this.client.post<TodoEntity>(environment.apiUrl + 'todos/incomplete', {
+        id: originalAction.item.id,
+        name: originalAction.item.name,
+        completed: false
+      }).pipe(
+        map(() => actions.markTodoAsIncompleteSucceeded({ item: { id: originalAction.item.id, changes: { completed: false } } }))
+      )
+      )
+    ), { dispatch: true }
+  );
 
   constructor(private actions$: Actions, private client: HttpClient) { }
 }

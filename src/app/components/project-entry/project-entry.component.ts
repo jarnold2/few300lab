@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Project } from 'src/app/models';
-import { AppState, selectAllProjectsList } from 'src/app/reducers';
+import { AppState, selectDashboardProjects } from 'src/app/reducers';
 import { Store, select } from '@ngrx/store';
 import { projectAdded } from 'src/app/actions/project.actions';
+import { Observable } from 'rxjs';
+import { ProjectEntity } from 'src/app/reducers/projects.reducer';
 
 @Component({
   selector: 'app-project-entry',
@@ -12,23 +12,32 @@ import { projectAdded } from 'src/app/actions/project.actions';
   styleUrls: ['./project-entry.component.scss']
 })
 export class ProjectEntryComponent implements OnInit {
-  projects$: Observable<Project[]>;
   form: FormGroup;
+  projects$: Observable<ProjectEntity[]>;
+  projectNameValid = true;
 
   constructor(private formBuilder: FormBuilder, private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.projects$ = this.store.pipe(select(selectAllProjectsList));
+    this.projects$ = this.store.pipe(
+      select(selectDashboardProjects)
+    );
+
     this.form = this.formBuilder.group({
-      projectName: ['', [Validators.required]]
+      name: ['', Validators.required]
     });
   }
 
   submit(): void {
-    this.store.dispatch(projectAdded({
-      ...this.form.value,
-    }));
-    this.form.reset();
-  }
+    this.projects$.subscribe((array) => {
+      this.projectNameValid = array.find(x => x.name === this.form.get('name').value) === undefined;
 
+      if (this.projectNameValid) {
+        this.store.dispatch(projectAdded({
+          ...this.form.value,
+        }));
+        this.form.reset();
+      }
+    });
+  }
 }

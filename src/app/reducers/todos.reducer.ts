@@ -1,4 +1,4 @@
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { EntityState, createEntityAdapter, Update } from '@ngrx/entity';
 import { createReducer, Action, on } from '@ngrx/store';
 import * as actions from '../actions/todo.actions';
 export interface TodoEntity {
@@ -26,6 +26,14 @@ const reducerFunction = createReducer(
     // the old switcharoo
     const tempState = adapter.removeOne(action.oldId, state);
     return adapter.addOne(action.payload, tempState);
+  }),
+  on(actions.markTodoAsCompleteSucceeded, (state, action) => {
+    console.log(action.item);
+    return adapter.updateOne(action.item, state);
+  }),
+  on(actions.markTodoAsIncompleteSucceeded, (state, action) => {
+    console.log(action.item);
+    return adapter.updateOne(action.item, state);
   })
 );
 
