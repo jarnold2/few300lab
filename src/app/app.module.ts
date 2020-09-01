@@ -38,6 +38,7 @@ import { AuthEffects } from './effects/auth.effects';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AdminModule } from './features/admin/admin.module';
 import { ProjectEntryComponent } from './components/project-entry/project-entry.component';
+import { ProjectSelectComponent } from './components/project-select/project-select.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { ProjectEntryComponent } from './components/project-entry/project-entry.
     TodoListComponent,
     TodoEntryComponent,
     LoginComponent,
-    ProjectEntryComponent
+    ProjectEntryComponent,
+    ProjectSelectComponent
   ],
   imports: [
     HttpClientModule,

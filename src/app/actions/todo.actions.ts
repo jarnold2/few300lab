@@ -66,3 +66,12 @@ export const markTodoAsIncompleteSucceeded = createAction(
   props<{ item: Update<TodoEntity> }>()
 );
 
+export const updateTodoProject = createAction(
+  '[todos] update todo project',
+  props<{ item: TodoEntity, projectName: string }>()
+);
+
+export const updateTodoProjectSucceeded = createAction(
+  '[todos] update todo project succeeded',
+  props<{ item: Update<TodoEntity> }>()
+);

@@ -66,5 +66,15 @@ export class TodosEffects {
     ), { dispatch: true }
   );
 
+  updateTodoProject$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.updateTodoProject),
+      switchMap((originalAction) => this.client.put<{ value: string }>(environment.apiUrl + 'todos/' + originalAction.item.id + '/project', {
+        value: originalAction.projectName
+      }).pipe(
+        map(() => actions.updateTodoProjectSucceeded({ item: { id: originalAction.item.id, changes: { project: originalAction.projectName } } }))
+      ))
+    ), { dispatch: true });
+
   constructor(private actions$: Actions, private client: HttpClient) { }
 }
