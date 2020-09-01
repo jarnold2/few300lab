@@ -30,7 +30,9 @@ const reducerFunction = createReducer(
   on(actions.markTodoAsCompleteSucceeded, (state, action) => adapter.updateOne(action.item, state)),
   on(actions.markTodoAsIncompleteSucceeded, (state, action) => adapter.updateOne(action.item, state)),
   on(actions.updateTodoProject, (state, action) => adapter.addOne(action.item, state)),
-  on(actions.updateTodoProjectSucceeded, (state, action) => adapter.updateOne(action.item, state))
+  on(actions.updateTodoProjectSucceeded, (state, action) => adapter.updateOne(action.item, state)),
+  on(actions.updateTodoDueDate, (state, action) => adapter.addOne(action.item, state)),
+  on(actions.updateTodoDueDateSucceeded, (state, action) => adapter.updateOne(action.item, state))
 );
 
 export function reducer(state: TodoState = initialState, action: Action): TodoState {

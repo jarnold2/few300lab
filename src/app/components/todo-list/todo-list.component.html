@@ -16,13 +16,7 @@
     <app-project-select [item]="item"></app-project-select>
 
     <mat-divider></mat-divider>
-    <span *ngIf="item.dueDate">{{ item.dueDate | date:'shortDate'  }} {{ item.dueDate | date:'shortTime' }}</span>
-    <span *ngIf="!item.dueDate">No Due Date</span>
-    <button mat-icon-button
-            color="primary"
-            aria-label="Example icon button with a menu icon">
-      <mat-icon>edit</mat-icon>
-    </button>
+    <app-due-date-edit [item]="item"></app-due-date-edit>
     <mat-divider></mat-divider>
 
     <button mat-button

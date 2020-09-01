@@ -9,14 +9,14 @@
   </button>
 </div>
 <div *ngIf="projectEditEnabled">
-  <mat-select>
+  <mat-select #projectSelect>
     <mat-option *ngFor="let project of (projects$ | async)"
                 value="{{project.name}}">
       {{ project.name }}
     </mat-option>
   </mat-select>
   <button mat-button
-          (click)="saveProjectEdit()">SAVE</button>
+          (click)="saveProjectEdit(projectSelect.selected.value)">SAVE</button>
   <button mat-button
           (click)="cancelProjectEdit()">CANCEL</button>
 </div>

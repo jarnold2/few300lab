@@ -74,7 +74,19 @@ export class TodosEffects {
       }).pipe(
         map(() => actions.updateTodoProjectSucceeded({ item: { id: originalAction.item.id, changes: { project: originalAction.projectName } } }))
       ))
-    ), { dispatch: true });
+    ), { dispatch: true }
+  );
+
+  updateTodoDueDate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.updateTodoDueDate),
+      switchMap((originalAction) => this.client.put<{ value: string }>(environment.apiUrl + 'todos/' + originalAction.item.id + '/dueDate', {
+        value: originalAction.newDueDate
+      }).pipe(
+        map(() => actions.updateTodoDueDateSucceeded({ item: { id: originalAction.item.id, changes: { dueDate: originalAction.newDueDate } } }))
+      ))
+    ), { dispatch: true }
+  );
 
   constructor(private actions$: Actions, private client: HttpClient) { }
 }

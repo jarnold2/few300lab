@@ -29,10 +29,14 @@ export class ProjectEntryComponent implements OnInit {
   }
 
   submit(): void {
+    console.log(this.form.get('name').value);
+
     this.projects$.subscribe((array) => {
+      // console.log(array.find(x => x.name === this.form.get('name').value));
       this.projectNameValid = array.find(x => x.name === this.form.get('name').value) === undefined;
 
       if (this.projectNameValid) {
+        console.log('test');
         this.store.dispatch(projectAdded({
           ...this.form.value,
         }));

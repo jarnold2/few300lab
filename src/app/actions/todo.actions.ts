@@ -75,3 +75,13 @@ export const updateTodoProjectSucceeded = createAction(
   '[todos] update todo project succeeded',
   props<{ item: Update<TodoEntity> }>()
 );
+
+export const updateTodoDueDate = createAction(
+  '[todos] update todo due date',
+  props<{ item: TodoEntity, newDueDate: string }>()
+);
+
+export const updateTodoDueDateSucceeded = createAction(
+  '[todos] update todo due date succeeded',
+  props<{ item: Update<TodoEntity> }>()
+);

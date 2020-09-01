@@ -1,4 +1,5 @@
-<form [formGroup]="form">
+<form (ngSubmit)="submit()"
+      [formGroup]="form">
   <div class="field-container">
     <mat-form-field hintLabel="Max of 50 Characters"
                     style="width: 800px !important"
@@ -15,7 +16,6 @@
     </mat-form-field>
     <div>
       <button mat-button
-              (click)="submit()"
               [disabled]="form.invalid">Submit</button>
       <mat-error *ngIf="!projectNameValid">Project name must be unique.</mat-error>
     </div>

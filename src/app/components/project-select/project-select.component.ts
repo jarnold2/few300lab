@@ -14,8 +14,6 @@ import { updateTodoProject } from 'src/app/actions/todo.actions';
 })
 export class ProjectSelectComponent implements OnInit {
   @Input() item: TodoItem;
-  @ViewChild(MatSelect) projectDropdown;
-
   projects$: Observable<ProjectEntity[]>;
   projectEditEnabled: boolean;
 
@@ -31,9 +29,8 @@ export class ProjectSelectComponent implements OnInit {
     this.projectEditEnabled = true;
   }
 
-  saveProjectEdit(): void {
-    console.log(this.projectDropdown.selected.value);
-    this.store.dispatch(updateTodoProject({ item: this.item, projectName: this.projectDropdown.selected.value }));
+  saveProjectEdit(projectName: string): void {
+    this.store.dispatch(updateTodoProject({ item: this.item, projectName }));
     this.projectEditEnabled = false;
   }
 
