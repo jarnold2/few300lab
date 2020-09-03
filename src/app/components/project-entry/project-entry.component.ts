@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppState, selectDashboardProjects } from 'src/app/reducers';
 import { Store, select } from '@ngrx/store';
 import { projectAdded } from 'src/app/actions/project.actions';
-import { Observable } from 'rxjs';
 import { ProjectEntity } from 'src/app/reducers/projects.reducer';
 
 @Component({
@@ -13,15 +12,18 @@ import { ProjectEntity } from 'src/app/reducers/projects.reducer';
 })
 export class ProjectEntryComponent implements OnInit {
   form: FormGroup;
-  projects$: Observable<ProjectEntity[]>;
+  projects: ProjectEntity[];
   projectNameValid = true;
 
   constructor(private formBuilder: FormBuilder, private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.projects$ = this.store.pipe(
+    // this.projects$ =
+    this.store.pipe(
       select(selectDashboardProjects)
-    );
+    ).subscribe((x) => {
+      this.projects = x;
+    });
 
     this.form = this.formBuilder.group({
       name: ['', Validators.required]
@@ -29,19 +31,21 @@ export class ProjectEntryComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.get('name').value);
+    console.log('checkpoint 1');
 
-    this.projects$.subscribe((array) => {
-      // console.log(array.find(x => x.name === this.form.get('name').value));
-      this.projectNameValid = array.find(x => x.name === this.form.get('name').value) === undefined;
 
-      if (this.projectNameValid) {
-        console.log('test');
-        this.store.dispatch(projectAdded({
-          ...this.form.value,
-        }));
-        this.form.reset();
-      }
-    });
+    console.log('array: ', this.projects);
+    // console.log(array.find(x => x.name === this.form.get('name').value));
+    this.projectNameValid = this.projects.find
+      (x => x.name === (this.form.get('name').value as string).replace(/\s+/g, '-').trim()) === undefined;
+
+    console.log('checkpoint 2');
+    if (this.projectNameValid) {
+      console.log('checkpoint 3');
+      this.store.dispatch(projectAdded({
+        ...this.form.value,
+      }));
+      this.form.reset();
+    }
   }
 }
