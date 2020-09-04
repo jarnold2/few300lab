@@ -14,6 +14,7 @@ export class ProjectEntryComponent implements OnInit {
   form: FormGroup;
   projects: ProjectEntity[];
   projectNameValid = true;
+  projectNameHasValue = true;
 
   constructor(private formBuilder: FormBuilder, private store: Store<AppState>) { }
 
@@ -31,6 +32,13 @@ export class ProjectEntryComponent implements OnInit {
   }
 
   submit(): void {
+
+    this.projectNameHasValue = this.form.get('name').value;
+
+    if (!this.projectNameHasValue) {
+      return;
+    }
+
     console.log('checkpoint 1');
 
 
@@ -46,6 +54,8 @@ export class ProjectEntryComponent implements OnInit {
         ...this.form.value,
       }));
       this.form.reset();
+      this.projectNameHasValue = true;
+      this.projectNameValid = true;
     }
   }
 }

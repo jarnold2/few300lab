@@ -15,9 +15,11 @@
       <mat-hint align="end">{{ input.value?.length || 0 }}/50</mat-hint>
     </mat-form-field>
     <div>
-      <button mat-button
-              [disabled]="form.invalid">Submit</button>
+      <button mat-button>Submit</button>
+      <!--[attr.aria-disabled]="form.invalid" https://angular.io/guide/accessibility-->
       <mat-error *ngIf="!projectNameValid">Project name must be unique.</mat-error>
+      <mat-error *ngIf="!projectNameHasValue">Please enter a value for the project name.</mat-error>
     </div>
   </div>
 </form>
+<!-- [disabled]="form.invalid" -->
