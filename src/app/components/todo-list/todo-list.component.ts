@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TodoItem } from '../../models';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { AppState, selectInboxTodoList, selectListForProject } from '../../reducers';
+import { AppState, selectInboxTodoList, selectListForProject, selectForecastTodayList, selectForecastOverdueList, selectForecastTomorrowList, selectForecastTwoAfterList, selectForecastFourAfterList, selectForecastThreeAfterList, selectForecastSixAfterList, selectForecastFiveAfterList, selectForecastFutureList } from '../../reducers';
 import { tap } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as actions from '../../actions/todo.actions';
@@ -30,6 +30,69 @@ export class TodoListComponent implements OnInit {
       case 'inbox': {
         this.items$ = this.store.pipe(
           select(selectInboxTodoList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'overdue': {
+        this.items$ = this.store.pipe(
+          select(selectForecastOverdueList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'today': {
+        this.items$ = this.store.pipe(
+          select(selectForecastTodayList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'tomorrow': {
+        this.items$ = this.store.pipe(
+          select(selectForecastTomorrowList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'twoAfter': {
+        this.items$ = this.store.pipe(
+          select(selectForecastTwoAfterList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'threeAfter': {
+        this.items$ = this.store.pipe(
+          select(selectForecastThreeAfterList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'fourAfter': {
+        this.items$ = this.store.pipe(
+          select(selectForecastFourAfterList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'fiveAfter': {
+        this.items$ = this.store.pipe(
+          select(selectForecastFiveAfterList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'sixAfter': {
+        this.items$ = this.store.pipe(
+          select(selectForecastSixAfterList),
+          tap(data => console.log(data))
+        );
+        break;
+      }
+      case 'future': {
+        this.items$ = this.store.pipe(
+          select(selectForecastFutureList),
           tap(data => console.log(data))
         );
         break;

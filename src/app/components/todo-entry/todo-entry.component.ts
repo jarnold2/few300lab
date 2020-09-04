@@ -4,7 +4,7 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState, selectAllProjectsList } from 'src/app/reducers';
-import { todoAdded } from 'src/app/actions/todo.actions';
+import { todoAdded, loadTodos } from 'src/app/actions/todo.actions';
 import { ProjectEntity } from 'src/app/reducers/projects.reducer';
 
 @Component({

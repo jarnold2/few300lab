@@ -6,7 +6,11 @@ import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-s
 import { TodoListComponent } from '../todo-list/todo-list.component';
 import { TodoEntryComponent } from '../todo-entry/todo-entry.component';
 import { DashboardProject, TodoItem } from 'src/app/models';
-import { AppState, selectDashboardProjects, selectInboxTodoList } from 'src/app/reducers';
+import {
+  AppState, selectDashboardProjects, selectInboxTodoList, selectForecastTodayList,
+  selectForecastOverdueList, selectForecastTomorrowList, selectForecastTwoAfterList, selectForecastThreeAfterList,
+  selectForecastFourAfterList, selectForecastFiveAfterList, selectForecastSixAfterList, selectForecastFutureList
+} from 'src/app/reducers';
 import { Store, select } from '@ngrx/store';
 import { loadTodos } from 'src/app/actions/todo.actions';
 import { loadProjects } from 'src/app/actions/project.actions';
@@ -22,6 +26,15 @@ export class DashboardComponent implements OnInit {
   projects$: Observable<DashboardProject[]>;
 
   inbox$: Observable<TodoItem[]>;
+  overdueTodos$: Observable<TodoItem[]>;
+  todayTodos$: Observable<TodoItem[]>;
+  tomorrowTodos$: Observable<TodoItem[]>;
+  twoAfterTodos$: Observable<TodoItem[]>;
+  threeAfterTodos$: Observable<TodoItem[]>;
+  fourAfterTodos$: Observable<TodoItem[]>;
+  fiveAfterTodos$: Observable<TodoItem[]>;
+  sixAfterTodos$: Observable<TodoItem[]>;
+  futureTodos$: Observable<TodoItem[]>;
 
   routeQueryParams$: Subscription;
   constructor(
@@ -39,9 +52,22 @@ export class DashboardComponent implements OnInit {
       select(selectDashboardProjects)
     );
     this.inbox$ = this.store.pipe(select(selectInboxTodoList));
+    this.overdueTodos$ = this.store.pipe(select(selectForecastOverdueList));
+    this.todayTodos$ = this.store.pipe(select(selectForecastTodayList));
+    this.tomorrowTodos$ = this.store.pipe(select(selectForecastTomorrowList));
+    this.twoAfterTodos$ = this.store.pipe(select(selectForecastTwoAfterList));
+    this.threeAfterTodos$ = this.store.pipe(select(selectForecastThreeAfterList));
+    this.fourAfterTodos$ = this.store.pipe(select(selectForecastFourAfterList));
+    this.fiveAfterTodos$ = this.store.pipe(select(selectForecastFiveAfterList));
+    this.sixAfterTodos$ = this.store.pipe(select(selectForecastSixAfterList));
+    this.futureTodos$ = this.store.pipe(select(selectForecastFutureList));
+
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
       if (params.inbox) {
         this.showList();
+      }
+      if (params.forecast) {
+        this.showForecast(params.forecast);
       }
       if (params.project) {
         this.showProject(params.project);
@@ -56,6 +82,41 @@ export class DashboardComponent implements OnInit {
   private showList(): void {
     const dlg = this.dialog.open(TodoListComponent, { disableClose: true, data: { filter: 'inbox' } });
     dlg.afterClosed().subscribe(_ => this.router.navigate(['dashboard']));
+  }
+  private showForecast(forecast: string): void {
+    const dlg = this.dialog.open(TodoListComponent, { disableClose: true, data: { filter: forecast } });
+    dlg.afterClosed().subscribe(_ => this.router.navigate(['dashboard']));
+  }
+
+  getDay(daysAfterToday: number): string {
+    const today = new Date();
+    today.setDate(today.getDate() + daysAfterToday);
+    switch (today.getDay()) {
+      case 0: {
+        return 'Sunday';
+      }
+      case 1: {
+        return 'Monday';
+      }
+      case 2: {
+        return 'Tuesday';
+      }
+      case 3: {
+        return 'Wednesday';
+      }
+      case 4: {
+        return 'Thursday';
+      }
+      case 5: {
+        return 'Friday';
+      }
+      case 6: {
+        return 'Saturday';
+      }
+      default: {
+        return 'ERROR';
+      }
+    }
   }
 
   addItem(): void {

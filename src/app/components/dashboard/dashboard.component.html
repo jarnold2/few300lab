@@ -14,15 +14,37 @@
     <mat-card-title>Forecast</mat-card-title>
     <mat-card-content>
       <mat-chip-list>
-        <mat-chip color="accent">Overdue (3)</mat-chip>
-        <mat-chip color="accent">Today (2)</mat-chip>
-        <mat-chip color="accent">Tuesday (3)</mat-chip>
-        <mat-chip color="accent">Wednesday (3)</mat-chip>
-        <mat-chip color="accent">Thursday (3)</mat-chip>
-        <mat-chip color="accent">Friday (2)</mat-chip>
-        <mat-chip color="accent">Saturday (3)</mat-chip>
-        <mat-chip color="accent">Sunday (3)</mat-chip>
-        <mat-chip color="accent">Future (13)</mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'overdue'}">Overdue ({{(overdueTodos$ | async).length}})</mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'today'}">Today ({{(todayTodos$ | async).length}})</mat-chip>
+        <!--({{(todayTodos$ | async).length}})-->
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'tomorrow'}">{{getDay(1)}} ({{(tomorrowTodos$ | async).length}})</mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'twoAfter'}">{{getDay(2)}} ({{(twoAfterTodos$ | async).length}})</mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'threeAfter'}">{{getDay(3)}} ({{(threeAfterTodos$ | async).length}})
+        </mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'fourAfter'}">{{getDay(4)}} ({{(fourAfterTodos$ | async).length}})
+        </mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'fiveAfter'}">{{getDay(5)}} ({{(fiveAfterTodos$ | async).length}})
+        </mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'sixAfter'}">{{getDay(6)}} ({{(sixAfterTodos$ | async).length}})</mat-chip>
+        <mat-chip color="accent"
+                  [routerLink]=""
+                  [queryParams]="{forecast: 'future'}">Future ({{(futureTodos$ | async).length}})</mat-chip>
       </mat-chip-list>
     </mat-card-content>
   </mat-card>
