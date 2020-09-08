@@ -39,17 +39,10 @@ export class ProjectEntryComponent implements OnInit {
       return;
     }
 
-    console.log('checkpoint 1');
-
-
-    console.log('array: ', this.projects);
-    // console.log(array.find(x => x.name === this.form.get('name').value));
     this.projectNameValid = this.projects.find
       (x => x.name === (this.form.get('name').value as string).replace(/\s+/g, '-').trim()) === undefined;
 
-    console.log('checkpoint 2');
     if (this.projectNameValid) {
-      console.log('checkpoint 3');
       this.store.dispatch(projectAdded({
         ...this.form.value,
       }));

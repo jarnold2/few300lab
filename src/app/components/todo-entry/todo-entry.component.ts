@@ -33,7 +33,6 @@ export class TodoEntryComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.value);
     this.store.dispatch(todoAdded({
       ...this.form.value,
       dueDate: this.form.value.dueDate?.toISOString()
