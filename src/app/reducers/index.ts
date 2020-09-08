@@ -5,6 +5,7 @@ import * as fromTodos from './todos.reducer';
 import * as fromModels from '../models';
 import * as fromUiHints from './ui-hints.reducer';
 import * as fromAuth from './auth.reducer';
+import { DateHelper } from '../helpers/date-helper';
 
 export interface AppState {
   projects: fromProjects.ProjectState;
@@ -59,74 +60,64 @@ export const selectInboxTodoList = createSelector(
 
 export const selectForecastOverdueList = createSelector(
   selectAllTodosList,
-  (todos) => todos.filter(t => new Date(t.dueDate).getDate() < new Date().getDate()) as fromModels.TodoItem[]
+  (todos) => {
+    return todos.filter(t => new Date(t.dueDate) < DateHelper.makeDate(0)) as fromModels.TodoItem[];
+  }
 );
 
 export const selectForecastTodayList = createSelector(
   selectAllTodosList,
-  (todos) => todos.filter(t => new Date(t.dueDate).getDate() === new Date().getDate()) as fromModels.TodoItem[]
+  (todos) => {
+    return todos.filter(t => new Date(t.dueDate) === DateHelper.makeDate(0)) as fromModels.TodoItem[]
+  }
 );
 
 export const selectForecastTomorrowList = createSelector(
   selectAllTodosList,
   (todos) => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return todos.filter(t => new Date(t.dueDate).getDate() === tomorrow.getDate()) as fromModels.TodoItem[];
+    return todos.filter(t => t.dueDate === DateHelper.makeDateString(1)) as fromModels.TodoItem[];
   }
 );
 
 export const selectForecastTwoAfterList = createSelector(
   selectAllTodosList,
   (todos) => {
-    const temp = new Date();
-    temp.setDate(temp.getDate() + 2);
-    return todos.filter(t => new Date(t.dueDate).getDate() === temp.getDate()) as fromModels.TodoItem[];
+    return todos.filter(t => t.dueDate === DateHelper.makeDateString(2)) as fromModels.TodoItem[];
   }
 );
 
 export const selectForecastThreeAfterList = createSelector(
   selectAllTodosList,
   (todos) => {
-    const temp = new Date();
-    temp.setDate(temp.getDate() + 3);
-    return todos.filter(t => new Date(t.dueDate).getDate() === temp.getDate()) as fromModels.TodoItem[];
+    return todos.filter(t => t.dueDate === DateHelper.makeDateString(3)) as fromModels.TodoItem[];
   }
 );
 
 export const selectForecastFourAfterList = createSelector(
   selectAllTodosList,
   (todos) => {
-    const temp = new Date();
-    temp.setDate(temp.getDate() + 4);
-    return todos.filter(t => new Date(t.dueDate).getDate() === temp.getDate()) as fromModels.TodoItem[];
+    return todos.filter(t => t.dueDate === DateHelper.makeDateString(4)) as fromModels.TodoItem[];
   }
 );
 
 export const selectForecastFiveAfterList = createSelector(
   selectAllTodosList,
   (todos) => {
-    const temp = new Date();
-    temp.setDate(temp.getDate() + 5);
-    return todos.filter(t => new Date(t.dueDate).getDate() === temp.getDate()) as fromModels.TodoItem[];
+    return todos.filter(t => t.dueDate === DateHelper.makeDateString(5)) as fromModels.TodoItem[];
   }
 );
 
 export const selectForecastSixAfterList = createSelector(
   selectAllTodosList,
   (todos) => {
-    const temp = new Date();
-    temp.setDate(temp.getDate() + 6);
-    return todos.filter(t => new Date(t.dueDate).getDate() === temp.getDate()) as fromModels.TodoItem[];
+    return todos.filter(t => t.dueDate === DateHelper.makeDateString(6)) as fromModels.TodoItem[];
   }
 );
 
 export const selectForecastFutureList = createSelector(
   selectAllTodosList,
   (todos) => {
-    const temp = new Date();
-    temp.setDate(temp.getDate() + 7);
-    return todos.filter(t => new Date(t.dueDate).getDate() >= temp.getDate()) as fromModels.TodoItem[];
+    return todos.filter(t => new Date(t.dueDate) > DateHelper.makeDate(7)) as fromModels.TodoItem[];
   }
 );
 
