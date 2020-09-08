@@ -3,12 +3,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TodoItem } from '../../models';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { AppState, selectInboxTodoList, selectListForProject, selectForecastTodayList, selectForecastOverdueList, selectForecastTomorrowList, selectForecastTwoAfterList, selectForecastFourAfterList, selectForecastThreeAfterList, selectForecastSixAfterList, selectForecastFiveAfterList, selectForecastFutureList } from '../../reducers';
-import { tap } from 'rxjs/operators';
+import {
+  AppState, selectInboxTodoList, selectListForProject, selectForecastTodayList,
+  selectForecastOverdueList, selectForecastTomorrowList, selectForecastTwoAfterList,
+  selectForecastFourAfterList, selectForecastThreeAfterList, selectForecastSixAfterList,
+  selectForecastFiveAfterList, selectForecastFutureList
+} from '../../reducers';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as actions from '../../actions/todo.actions';
-import { TodoEntity } from 'src/app/reducers/todos.reducer';
-import { Update } from '@ngrx/entity/src/models';
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
@@ -109,10 +111,6 @@ export class TodoListComponent implements OnInit {
   }
 
   updateItemStatus(item: TodoItem): void {
-    // const updateTodoItem: Update<TodoEntity> = {
-    //   id: item.id,
-    //   changes: { completed: !item.completed }
-    // };
     if (item.completed) {
       this.store.dispatch(actions.markTodoAsIncomplete({ item }));
     }
