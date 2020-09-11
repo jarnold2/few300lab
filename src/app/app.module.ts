@@ -40,6 +40,7 @@ import { AdminModule } from './features/admin/admin.module';
 import { ProjectEntryComponent } from './components/project-entry/project-entry.component';
 import { ProjectSelectComponent } from './components/project-select/project-select.component';
 import { DueDateEditComponent } from './components/due-date-edit/due-date-edit.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +79,8 @@ import { DueDateEditComponent } from './components/due-date-edit/due-date-edit.c
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true

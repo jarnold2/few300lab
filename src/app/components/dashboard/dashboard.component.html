@@ -17,50 +17,65 @@
               style="margin: 5px 5px 0px 0px;"
               color="warn"
               [routerLink]=""
-              [queryParams]="{forecast: 'overdue'}">Overdue ({{(overdueTodos$ | async).length}})</button>
+              [queryParams]="{forecast: -1}">Overdue
+        <!-- ({{(overdueTodos$ | async).length}}) -->
+      </button>
       <button mat-raised-button
               style="margin: 5px 5px 0px 0px;"
               color="primary"
               [routerLink]=""
-              [queryParams]="{forecast: 'today'}">Today ({{(todayTodos$ | async).length}})</button>
-      <button mat-raised-button
-              style="margin: 5px 5px 0px 0px;"
-              color="basic"
-              [routerLink]=""
-              [queryParams]="{forecast: 'tomorrow'}">{{getDay(1)}} ({{(tomorrowTodos$ | async).length}})</button>
-      <button mat-raised-button
-              style="margin: 5px 5px 0px 0px;"
-              color="basic"
-              [routerLink]=""
-              [queryParams]="{forecast: 'twoAfter'}">{{getDay(2)}} ({{(twoAfterTodos$ | async).length}})</button>
-      <button mat-raised-button
-              style="margin: 5px 5px 0px 0px;"
-              color="basic"
-              [routerLink]=""
-              [queryParams]="{forecast: 'threeAfter'}">{{getDay(3)}} ({{(threeAfterTodos$ | async).length}})
+              [queryParams]="{forecast: 0}"> Today
+        <!-- ({{todayTodos$}}) -->
       </button>
       <button mat-raised-button
               style="margin: 5px 5px 0px 0px;"
               color="basic"
               [routerLink]=""
-              [queryParams]="{forecast: 'fourAfter'}">{{getDay(4)}} ({{(fourAfterTodos$ | async).length}})
+              [queryParams]="{forecast: 1}">{{daysOfWeek[getDay(1)]}}
+        <!-- ({{(tomorrowTodos$ | async).length}}) -->
       </button>
       <button mat-raised-button
               style="margin: 5px 5px 0px 0px;"
               color="basic"
               [routerLink]=""
-              [queryParams]="{forecast: 'fiveAfter'}">{{getDay(5)}} ({{(fiveAfterTodos$ | async).length}})
+              [queryParams]="{forecast: 2}">{{daysOfWeek[getDay(2)]}}
+        <!-- ({{(twoAfterTodos$ | async).length}}) -->
       </button>
       <button mat-raised-button
               style="margin: 5px 5px 0px 0px;"
               color="basic"
               [routerLink]=""
-              [queryParams]="{forecast: 'sixAfter'}">{{getDay(6)}} ({{(sixAfterTodos$ | async).length}})</button>
+              [queryParams]="{forecast: 3}">{{daysOfWeek[getDay(3)]}}
+        <!-- ({{(threeAfterTodos$ | async).length}}) -->
+      </button>
+      <button mat-raised-button
+              style="margin: 5px 5px 0px 0px;"
+              color="basic"
+              [routerLink]=""
+              [queryParams]="{forecast: 4}">{{daysOfWeek[getDay(4)]}}
+        <!-- ({{(fourAfterTodos$ | async).length}}) -->
+      </button>
+      <button mat-raised-button
+              style="margin: 5px 5px 0px 0px;"
+              color="basic"
+              [routerLink]=""
+              [queryParams]="{forecast: 5}">{{daysOfWeek[getDay(5)]}}
+        <!-- ({{(fiveAfterTodos$ | async).length}}) -->
+      </button>
+      <button mat-raised-button
+              style="margin: 5px 5px 0px 0px;"
+              color="basic"
+              [routerLink]=""
+              [queryParams]="{forecast: 6}">{{daysOfWeek[getDay(6)]}}
+        <!-- ({{(sixAfterTodos$ | async).length}}) -->
+      </button>
       <button mat-raised-button
               style="margin: 5px 5px 0px 0px;"
               color="accent"
               [routerLink]=""
-              [queryParams]="{forecast: 'future'}">Future ({{(futureTodos$ | async).length}})</button>
+              [queryParams]="{forecast: 7}">Future
+        <!-- ({{(futureTodos$ | async).length}}) -->
+      </button>
     </mat-card-content>
   </mat-card>
   <mat-card>
@@ -73,20 +88,29 @@
               [queryParams]="{inbox: true}">
         <mat-icon>inbox</mat-icon>
         <mat-label>Inbox</mat-label>
-        ({{ (inbox$ | async).length}})
+        <!-- ({{ (inbox$ | async).length}}) -->
       </button>
     </mat-card-actions>
   </mat-card>
   <mat-card>
     <mat-card-title>Projects</mat-card-title>
     <mat-card-content>Todo Items assigned to a Project</mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions class="flex flex-wrap">
       <button mat-raised-button
               color="primary"
+              class="flex project-button"
               *ngFor="let project of projects$ | async"
               [routerLink]=""
               [queryParams]="{'project': project.name}">
-        <mat-icon>event</mat-icon> {{ project.name}} ({{ project.count }})
+        <div class="project-button-div flex">
+          <mat-icon class="event"
+                    *ngIf="!project.addPending">event</mat-icon>
+          <mat-spinner class="spinner"
+                       diameter="20"
+                       color="warn"
+                       *ngIf="project.addPending"></mat-spinner>
+          {{ project.name}} ({{ project.count }})
+        </div>
       </button>
     </mat-card-actions>
   </mat-card>

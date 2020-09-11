@@ -3,8 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import * as actions from '../actions/project.actions';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { ProjectEntity } from '../reducers/projects.reducer';
+import { of } from 'rxjs';
 @Injectable()
 export class ProjectEffects {
   saveProject$ = createEffect(() =>
@@ -13,7 +14,8 @@ export class ProjectEffects {
       switchMap((originalAction) => this.client.post<ProjectEntity>(environment.apiUrl + 'projects', {
         name: originalAction.payload.name,
       }).pipe(
-        map(response => actions.projectAddedSucceeded({ oldId: originalAction.payload.id, payload: response }))
+        map(response => actions.projectAddedSucceeded({ oldId: originalAction.payload.id, payload: response })),
+        catchError(err => of(actions.projectAddedFailed({ oldId: originalAction.payload.id })))
       ))
     ), { dispatch: true }
   );

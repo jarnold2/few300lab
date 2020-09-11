@@ -7,14 +7,14 @@ import { TodoListComponent } from '../todo-list/todo-list.component';
 import { TodoEntryComponent } from '../todo-entry/todo-entry.component';
 import { DashboardProject, TodoItem } from 'src/app/models';
 import {
-  AppState, selectDashboardProjects, selectInboxTodoList, selectForecastTodayList,
-  selectForecastOverdueList, selectForecastTomorrowList, selectForecastTwoAfterList, selectForecastThreeAfterList,
-  selectForecastFourAfterList, selectForecastFiveAfterList, selectForecastSixAfterList, selectForecastFutureList
+  AppState, selectDashboardProjects, selectInboxTodoList, selectForecastDaysAfterTodayList,
+  selectForecastOverdueList, selectForecastFutureList
 } from 'src/app/reducers';
 import { Store, select } from '@ngrx/store';
 import { loadTodos } from 'src/app/actions/todo.actions';
 import { loadProjects } from 'src/app/actions/project.actions';
-import { logOutRequested } from 'src/app/actions/auth.actions';
+import { logOut } from 'src/app/actions/auth.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,11 +22,15 @@ import { logOutRequested } from 'src/app/actions/auth.actions';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   projects$: Observable<DashboardProject[]>;
 
+  todayTodosCount: number;
+
   inbox$: Observable<TodoItem[]>;
   overdueTodos$: Observable<TodoItem[]>;
+  // todayTodos: TodoItem[];
   todayTodos$: Observable<TodoItem[]>;
   tomorrowTodos$: Observable<TodoItem[]>;
   twoAfterTodos$: Observable<TodoItem[]>;
@@ -48,75 +52,45 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('dashboard oninit');
     this.projects$ = this.store.pipe(
       select(selectDashboardProjects)
     );
+
     this.inbox$ = this.store.pipe(select(selectInboxTodoList));
+
     this.overdueTodos$ = this.store.pipe(select(selectForecastOverdueList));
-    this.todayTodos$ = this.store.pipe(select(selectForecastTodayList));
-    this.tomorrowTodos$ = this.store.pipe(select(selectForecastTomorrowList));
-    this.twoAfterTodos$ = this.store.pipe(select(selectForecastTwoAfterList));
-    this.threeAfterTodos$ = this.store.pipe(select(selectForecastThreeAfterList));
-    this.fourAfterTodos$ = this.store.pipe(select(selectForecastFourAfterList));
-    this.fiveAfterTodos$ = this.store.pipe(select(selectForecastFiveAfterList));
-    this.sixAfterTodos$ = this.store.pipe(select(selectForecastSixAfterList));
+    this.todayTodos$ = this.store.pipe(select(selectForecastDaysAfterTodayList(), { daysAfterToday: 0 }));
+    this.tomorrowTodos$ = this.store.pipe(select(selectForecastDaysAfterTodayList(), { daysAfterToday: 1 }));
+    this.twoAfterTodos$ = this.store.pipe(select(selectForecastDaysAfterTodayList(), { daysAfterToday: 2 }));
+    this.threeAfterTodos$ = this.store.pipe(select(selectForecastDaysAfterTodayList(), { daysAfterToday: 3 }));
+    this.fourAfterTodos$ = this.store.pipe(select(selectForecastDaysAfterTodayList(), { daysAfterToday: 4 }));
+    this.fiveAfterTodos$ = this.store.pipe(select(selectForecastDaysAfterTodayList(), { daysAfterToday: 5 }));
+    this.sixAfterTodos$ = this.store.pipe(select(selectForecastDaysAfterTodayList(), { daysAfterToday: 6 }));
     this.futureTodos$ = this.store.pipe(select(selectForecastFutureList));
 
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
       if (params.inbox) {
-        this.showList();
+        this.showDialog('inbox', -1);
       }
       if (params.forecast) {
-        this.showForecast(params.forecast);
+        this.showDialog('forecast', params.forecast as number);
       }
       if (params.project) {
-        this.showProject(params.project);
+        this.showDialog(params.project, -1);
       }
     });
   }
 
-  private showProject(project: string): void {
-    const dlg = this.dialog.open(TodoListComponent, { disableClose: true, data: { filter: project } });
-    dlg.afterClosed().subscribe(_ => this.router.navigate(['dashboard']));
-  }
-  private showList(): void {
-    const dlg = this.dialog.open(TodoListComponent, { disableClose: true, data: { filter: 'inbox' } });
-    dlg.afterClosed().subscribe(_ => this.router.navigate(['dashboard']));
-  }
-  private showForecast(forecast: string): void {
-    const dlg = this.dialog.open(TodoListComponent, { disableClose: true, data: { filter: forecast } });
+  private showDialog(filter: string, daysAfterToday: number): void {
+    const dlg = this.dialog.open(TodoListComponent, { disableClose: true, data: { filter, daysAfterToday } });
     dlg.afterClosed().subscribe(_ => this.router.navigate(['dashboard']));
   }
 
-  getDay(daysAfterToday: number): string {
+  getDay(daysAfterToday: number): number {
     const today = new Date();
     today.setDate(today.getDate() + daysAfterToday);
-    switch (today.getDay()) {
-      case 0: {
-        return 'Sunday';
-      }
-      case 1: {
-        return 'Monday';
-      }
-      case 2: {
-        return 'Tuesday';
-      }
-      case 3: {
-        return 'Wednesday';
-      }
-      case 4: {
-        return 'Thursday';
-      }
-      case 5: {
-        return 'Friday';
-      }
-      case 6: {
-        return 'Saturday';
-      }
-      default: {
-        return 'ERROR';
-      }
-    }
+    return today.getDay();
   }
 
   addItem(): void {
@@ -128,6 +102,6 @@ export class DashboardComponent implements OnInit {
   }
 
   logOut(): void {
-    this.store.dispatch(logOutRequested());
+    this.store.dispatch(logOut());
   }
 }

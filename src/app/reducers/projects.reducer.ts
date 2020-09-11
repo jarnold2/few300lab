@@ -5,24 +5,14 @@ import * as actions from '../actions/project.actions';
 export interface ProjectEntity {
   id: string;
   name: string;
+  addPending: boolean;
 }
 
-export interface ProjectState extends EntityState<ProjectEntity> {
-
-}
+export interface ProjectState extends EntityState<ProjectEntity> { }
 
 export const adapter = createEntityAdapter<ProjectEntity>();
 
-
 const initialState = adapter.getInitialState();
-// const initialState: ProjectState = {
-//   ids: ['1', '2', '3'],
-//   entities: {
-//     1: { id: '1', name: 'Work' },
-//     2: { id: '2', name: 'House' },
-//     3: { id: '3', name: 'Fitness' }
-//   }
-// };
 
 const reducerFunction = createReducer(
   initialState,
@@ -31,7 +21,8 @@ const reducerFunction = createReducer(
   on(actions.projectAddedSucceeded, (state, action) => {
     const tempState = adapter.removeOne(action.oldId, state);
     return adapter.addOne(action.payload, tempState);
-  })
+  }),
+  on(actions.projectAddedFailed, (state, action) => adapter.removeOne(action.oldId, state))
 );
 
 export function reducer(state: ProjectState = initialState, action: Action): ProjectState {

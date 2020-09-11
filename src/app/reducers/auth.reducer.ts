@@ -11,17 +11,13 @@ const initialState: AuthState = { isLoggedIn: false };
 
 const reducerFunction = createReducer(
   initialState,
-  on(actions.loginFailed, actions.logOutRequested, actions.loginRequested, () => initialState),
+  on(actions.loginFailed, actions.logOut, actions.loginRequested, () => initialState),
   on(actions.loginSucceeded, (state, action) => ({
     isLoggedIn: true,
     userName: action.username,
     token: action.token
   })),
-  on(actions.logOutRequested, (state, action) => ({
-    isLoggedIn: false,
-    userName: null,
-    token: null
-  })));
+);
 
 
 

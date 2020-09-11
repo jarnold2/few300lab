@@ -7,7 +7,8 @@ export const projectAdded = createAction(
   ({ name }: { name: string }) => ({
     payload: {
       id: 'TEMP' + tempId++,
-      name: name.replace(/\s+/g, '-').trim()
+      name: name.replace(/\s+/g, '-').trim(),
+      addPending: true
     } as ProjectEntity
   })
 );
@@ -15,6 +16,11 @@ export const projectAdded = createAction(
 export const projectAddedSucceeded = createAction(
   '[project] project added succeeded',
   props<{ oldId: string, payload: ProjectEntity }>()
+);
+
+export const projectAddedFailed = createAction(
+  '[project] project added failed',
+  props<{ oldId: string }>()
 );
 
 export const loadProjects = createAction(

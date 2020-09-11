@@ -14,6 +14,6 @@ export const loginFailed = createAction(
   '[auth] login failed'
 );
 
-export const logOutRequested = createAction(
-  '[auth] log out requested'
+export const logOut = createAction(
+  '[auth] log out'
 );

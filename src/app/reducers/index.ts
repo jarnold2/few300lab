@@ -55,7 +55,10 @@ const selectSortedInboxTodos = createSelector(
 
 export const selectInboxTodoList = createSelector(
   selectSortedInboxTodos,
-  (todos) => todos.filter(t => !t.project) as fromModels.TodoItem[]
+  (todos) => {
+    console.log('INBOX TEST');
+    return todos.filter(t => !t.project) as fromModels.TodoItem[];
+  }
 );
 
 export const selectForecastOverdueList = createSelector(
@@ -65,52 +68,12 @@ export const selectForecastOverdueList = createSelector(
   }
 );
 
-export const selectForecastTodayList = createSelector(
+export const selectForecastDaysAfterTodayList = () => createSelector(
   selectAllTodosList,
-  (todos) => {
-    return todos.filter(t => new Date(t.dueDate) === DateHelper.makeDate(0)) as fromModels.TodoItem[]
-  }
-);
-
-export const selectForecastTomorrowList = createSelector(
-  selectAllTodosList,
-  (todos) => {
-    return todos.filter(t => t.dueDate === DateHelper.makeDateString(1)) as fromModels.TodoItem[];
-  }
-);
-
-export const selectForecastTwoAfterList = createSelector(
-  selectAllTodosList,
-  (todos) => {
-    return todos.filter(t => t.dueDate === DateHelper.makeDateString(2)) as fromModels.TodoItem[];
-  }
-);
-
-export const selectForecastThreeAfterList = createSelector(
-  selectAllTodosList,
-  (todos) => {
-    return todos.filter(t => t.dueDate === DateHelper.makeDateString(3)) as fromModels.TodoItem[];
-  }
-);
-
-export const selectForecastFourAfterList = createSelector(
-  selectAllTodosList,
-  (todos) => {
-    return todos.filter(t => t.dueDate === DateHelper.makeDateString(4)) as fromModels.TodoItem[];
-  }
-);
-
-export const selectForecastFiveAfterList = createSelector(
-  selectAllTodosList,
-  (todos) => {
-    return todos.filter(t => t.dueDate === DateHelper.makeDateString(5)) as fromModels.TodoItem[];
-  }
-);
-
-export const selectForecastSixAfterList = createSelector(
-  selectAllTodosList,
-  (todos) => {
-    return todos.filter(t => t.dueDate === DateHelper.makeDateString(6)) as fromModels.TodoItem[];
+  (todos, props) => {
+    return todos.filter(t =>
+      t.dueDate === DateHelper.makeDateString(props.daysAfterToday)
+    ) as fromModels.TodoItem[];
   }
 );
 
@@ -127,7 +90,8 @@ export const selectDashboardProjects = createSelector(
   (projects, todos) => projects.map(p => ({
     id: p.id,
     name: p.name,
-    count: todos.filter(t => t.project === p.name).length
+    count: todos.filter(t => t.project === p.name).length,
+    addPending: p.addPending
   } as fromModels.DashboardProject))
 );
 

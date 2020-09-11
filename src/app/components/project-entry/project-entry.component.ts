@@ -19,7 +19,6 @@ export class ProjectEntryComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    // this.projects$ =
     this.store.pipe(
       select(selectDashboardProjects)
     ).subscribe((x) => {

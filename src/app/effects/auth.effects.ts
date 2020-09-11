@@ -34,7 +34,7 @@ export class AuthEffects {
 
   logout$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(authActions.logOutRequested),
+      ofType(authActions.logOut),
       tap(() => {
         localStorage.removeItem('auth_token');
         this.router.navigate(['login']);
